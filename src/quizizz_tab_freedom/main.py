@@ -3,7 +3,19 @@ import asyncio
 from .bypass import QuizizzBypass
 
 async def main():
-    
+    """Parse command-line arguments and orchestrate a multi-tab Quizizz session with a research tab using stealth automation.
+
+    The function initializes the QuizizzBypass class, sets up a stealth browser context,
+    opens two tabs—one for Quizizz and one for research—and keeps the session active
+    until user input terminates the program.
+
+    Command-line arguments:
+        --quizizz-url (str): URL of the Quizizz session. Defaults to 'https://quizizz.com'.
+        --research-url (str): URL for auxiliary research. Defaults to 'https://google.com'.
+
+    Note:
+        Intended for educational and ethical use only. Requires manual termination via Enter key.
+    """
     parser = argparse.ArgumentParser(
         description="QuizizzTabFreedom: Ethical automation tool for tab freedom in Quizizz sessions. "
                     "Designed for PC-based research and productivity enhancement. "

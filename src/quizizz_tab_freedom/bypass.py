@@ -4,13 +4,13 @@ from playwright.async_api import async_playwright
 class QuizizzBypass:
 
     def __init__(self):
-        
+        """Initialize the QuizizzBypass instance with null browser resources."""
         self.p = None
         self.browser = None
         self.context = None
 
     async def setup(self):
-
+        """Launch a stealth-configured Chromium browser and create a context with evasion scripts."""
         self.p = await async_playwright().start()
         self.browser = await self.p.chromium.launch(
             headless=False,
@@ -35,7 +35,7 @@ class QuizizzBypass:
         await self._inject_stealth_scripts()
 
     async def _inject_stealth_scripts(self):
-
+        """Inject JavaScript snippets into the browser context to bypass common bot detection techniques."""
         stealth_script = """
         // Prevent detection
         delete window.cdc_adoQpoasnfa76pfcZLmcfl_Array;
@@ -68,7 +68,7 @@ class QuizizzBypass:
         await self.context.add_init_script(stealth_script)
 
     async def create_stealth_page(self):
-
+        """Create a new page with additional stealth measures applied at the page level."""
         page = await self.context.new_page()
 
         await page.add_init_script("""
@@ -83,7 +83,15 @@ class QuizizzBypass:
         return page
     
     async def multi_tab_operation(self, quizizz_url: str, research_url: str):
+        """Open and manage two tabs: one for Quizizz and one for external research, simulating legitimate multi-tab usage.
 
+        Args:
+            quizizz_url (str): The URL of the Quizizz session.
+            research_url (str): The URL of the auxiliary research page.
+        
+        Returns:
+            tuple: A pair of Playwright page objects (quizizz_tab, research_tab).
+        """
         quizizz_tab = await self.create_stealth_page()
         await quizizz_tab.goto(quizizz_url)
 
@@ -99,7 +107,7 @@ class QuizizzBypass:
         return quizizz_tab, research_tab
     
     async def close(self):
-
+        """Gracefully close the browser and stop the Playwright process."""
         if self.browser:
             await self.browser.close()
         if self.p:
